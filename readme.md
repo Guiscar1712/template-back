@@ -1,31 +1,43 @@
-Arquitetura API
+# Template Backend Node.js (TypeScript)
 
-Controllers 
-Users  -> Utilizar folders onde vai existir o arquivo controller e o arquivo de rota 
- 
+Este projeto é um template de backend usando Node.js com TypeScript, baseado em princípios de Clean Architecture e preparado para uso com Docker e banco de dados via TypeORM.
 
-Domain
-Entidades ->   Onde vamos definir a entidade, e vamos utilizar TypeORM. 
- 
+---
 
-Interfaces
-Aqui terá as interfaces que podem ser reeutilizadas e implementadas nas classes em todo o projeto, como, por ex: Repository.ts 
-Onde é definido alguns métodos bases de um repository 
+## 🚀 Tecnologias e Ferramentas
 
-Providers 
-Aqui ficam todas depedências externas do projeto, como, por ex: DatabaseProvider, onde é definido como é a conexão do banco, etc.. E o repositorie só reutiliza, sem saber como está sendo implementado, deixando o baixo acoplamento. 
+- Node.js
+- TypeScript
+- Express
+- TypeORM
+- PostgreSQL (configurado no Docker)
+- Docker & Docker Compose
+- ESLint + Prettier
+- PNPM (gerenciador de pacotes)
 
+---
 
-Repositories
-Será definido os repositories de cada entidade, implementando a interface repository e podendo adicionar métodos especificos, caso necessário.  E utilizando como injeção de depedência, o databaseProvider. 
+## 🧱 Arquitetura
 
-Shared 
-Aqui pode ter diversos folders que podem ser utilizados em todo o projeto, sendo eles funções de formatação, funções de data, etc.
+A estrutura do projeto é modular, separando bem responsabilidades:
 
-Use Cases 
-Aqui será dividido por folders de cada entidade, com cada caso de uso separado, para facilitar a manutenção. 
+---
 
- 
-App.ts 
-Onde é iniciado o projeto, BD, etc. 
-Está configurado o ESlint, Prettier e editorConfig para mantermos o mesmo padrão de código.
+## 🧪 Como rodar localmente
+
+### Pré-requisitos:
+
+- Docker + Docker Compose
+- pnpm (`npm install -g pnpm`)
+
+### Passos:
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/Guiscar1712/template-back.git
+cd template-back
+
+2. Comando para rodar via Docker e gerar os dados básicos no banco
+docker-compose up -d
+```

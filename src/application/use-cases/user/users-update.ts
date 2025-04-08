@@ -3,30 +3,31 @@ import { UserService } from '@/domain/services/user/user-service';
 import { inject, injectable } from 'inversify';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { IHashedPassword } from '@/domain/interfaces/hashed-password.interface';
 import { TYPES } from '@/infrastructure/container/types-container';
-import { ValidateError } from '@/interfaces/middlewares/errors/validate-error';
 import { AppError } from '@/interfaces/middlewares/errors/app-error';
+import { ValidateError } from '@/interfaces/middlewares/errors/validate-error';
+import { fieldsValidationErrors } from '@/shared/utils/fields-validation-errors';
+import { UserUpdateRequestDto } from '@/application/dtos/user-update-request.dto';
 import { UserMapper } from '@/application/mappers/user.mapper';
 import { UserResponseDto } from '@/application/dtos/user-response.dto';
-import { UserRequestDto } from '@/application/dtos/user-request.dto';
-import { fieldsValidationErrors } from '@/shared/utils/fields-validation-errors';
 
 @injectable()
-export class UserCreateUseCase {
+export class UsersUpdateUseCase {
   constructor(
     @inject(TYPES.UserService)
     private userService: UserService,
-
-    @inject(TYPES.HashedPassword)
-    private passwordHasher: IHashedPassword,
   ) {}
 
-  async execute(
-    data: Partial<User> & { roles: string[] },
-  ): Promise<UserResponseDto> {
+  async execute(data: Partial<User>): Promise<UserResponseDto> {
     try {
-      const userInstance = plainToInstance(UserRequestDto, data);
+      const existingUser = await this.userService.findById(data.user_id);
+      if (!existingUser) {
+        throw new AppError('User not found', 404);
+      }
+
+      const userInstance = plainToInstance(UserUpdateRequestDto, {
+        ...data,
+      });
 
       const validationErrors = await validate(userInstance, {
         dismissDefaultMessages: true,
@@ -40,32 +41,20 @@ export class UserCreateUseCase {
         throw new ValidateError(fieldErrors);
       }
 
-      if (!data.password) {
-        throw new ValidateError([
-          { field: 'password', errors: ['Password is required'] },
-        ]);
-      }
-
-      const hashedPassword = await this.passwordHasher.hashPassword(
-        data.password,
-      );
-      data.password = hashedPassword;
-
-      const user = await this.userService.create({
-        ...data,
-        password: hashedPassword,
+      const userUpdated = await this.userService.update(data.user_id, {
+        name: data.name,
+        addresses: data.addresses,
+        phones: data.phones,
+        emails: data.emails,
       });
 
-      // if (roles?.length) {
-      //   await this.userService.addRolesToUser(user.user_id, roles);
-      // }
-
-      return UserMapper.toResponseDto(user);
+      return UserMapper.toResponseDto(userUpdated);
     } catch (error) {
+      console.log(error);
       if (error instanceof ValidateError) throw error;
 
       throw new AppError(
-        `User creation failed: ${
+        `User update failed: ${
           error instanceof Error ? error.message : 'Unknown error'
         }`,
         500,

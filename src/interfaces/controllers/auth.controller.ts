@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '@/shared/container/types-container';
 import { AuthLoginUseCase } from '@/application/use-cases/auth/auth-login';
+import { TYPES } from '@/infrastructure/container/types-container';
 
 @injectable()
 export class AuthController {

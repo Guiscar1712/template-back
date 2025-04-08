@@ -1,3 +1,4 @@
+
 Table users {
   user_id UUID [primary key]
   name VARCHAR

@@ -1,5 +1,5 @@
-import { RepositoryInterface } from '@/application/interfaces/repository';
 import { Repository, DeepPartial } from 'typeorm';
+import { RepositoryInterface } from '../interfaces/repository.interface';
 
 export abstract class AbstractRepository<T> implements RepositoryInterface<T> {
   protected repository: Repository<T>;
@@ -17,19 +17,11 @@ export abstract class AbstractRepository<T> implements RepositoryInterface<T> {
   }
 
   async findById(query: any): Promise<T | undefined> {
-    return this.repository.findOne({ where: query });
+    return await this.repository.findOne(query);
   }
 
-  async update(
-    id: number | string,
-    entity: Partial<T>,
-  ): Promise<T | undefined> {
-    const existingEntity = await this.findById(id);
-    if (!existingEntity) {
-      return null;
-    }
-    await this.repository.update(id, entity as any);
-    return this.findById(id);
+  async update(id: number | string, entity: Partial<T>): Promise<any> {
+    return await this.repository.update(id, entity as any);
   }
 
   async delete(id: number | string): Promise<void> {

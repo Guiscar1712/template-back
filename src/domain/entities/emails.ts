@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @Entity('emails')
 export class Email {
@@ -15,6 +16,8 @@ export class Email {
   email_id: string;
 
   @Column({ type: 'varchar', unique: true })
+  @IsNotEmpty()
+  @IsString()
   email: string;
 
   @ManyToOne(() => User, (user) => user.emails, {

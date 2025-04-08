@@ -3,8 +3,8 @@ import express, { Application } from 'express';
 import { AppDataSource } from './data-source';
 import routes from './interfaces/routes';
 import 'reflect-metadata';
-import { responseHandler } from './shared/middlewares/response-handler';
-import { errorHandler } from './shared/errors/error-handler';
+import { errorHandler } from './interfaces/middlewares/errors/error-handler';
+import { responseHandler } from './interfaces/middlewares/response/response-handler';
 
 AppDataSource.initialize().then(() => {
   const app: Application = express();

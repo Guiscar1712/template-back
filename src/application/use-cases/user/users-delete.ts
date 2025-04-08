@@ -1,5 +1,6 @@
 import { UserService } from '@/domain/services/user/user-service';
-import { TYPES } from '@/shared/container/types-container';
+import { TYPES } from '@/infrastructure/container/types-container';
+import { AppError } from '@/interfaces/middlewares/errors/app-error';
 import { inject, injectable } from 'inversify';
 
 @injectable()
@@ -10,6 +11,20 @@ export class UserDeleteUseCase {
   ) {}
 
   async execute(id: string): Promise<void> {
-    await this.userService.delete(id);
+    try {
+      const existingUser = await this.userService.findById(id);
+      if (!existingUser) {
+        throw new AppError('User not found', 404);
+      }
+
+      await this.userService.delete(id);
+    } catch (error) {
+      throw new AppError(
+        `User deletion failed: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
+        500,
+      );
+    }
   }
 }

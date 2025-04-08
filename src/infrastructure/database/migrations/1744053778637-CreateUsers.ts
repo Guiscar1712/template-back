@@ -35,7 +35,12 @@ export class CreateUsers1744053778637 implements MigrationInterface {
           {
             name: 'status',
             type: 'varchar',
-            default: "'active'",
+            default: "'ACTIVE'",
+          },
+          {
+            name: 'is_deleted',
+            type: 'boolean',
+            default: false,
           },
         ],
       }),

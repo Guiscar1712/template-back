@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import { AuthService } from '@/domain/services/auth/auth-service';
 import { UserService } from '@/domain/services/user/user-service';
-import { TYPES } from '@/shared/container/types-container';
 import { compare } from 'bcryptjs';
+import { TYPES } from '@/infrastructure/container/types-container';
 
 @injectable()
 export class AuthLoginUseCase {

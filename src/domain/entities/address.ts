@@ -1,3 +1,4 @@
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import {
   Column,
   Entity,
@@ -15,18 +16,28 @@ export class Address {
   address_id: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   street: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   city: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   state: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   country: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   postal_code: string;
 
   @ManyToOne(() => User, (user) => user.addresses, {
@@ -34,6 +45,7 @@ export class Address {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
+  @IsOptional() // permite que o campo seja ignorado na validação se estiver nulo
   user: User;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

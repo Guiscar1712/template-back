@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRole } from './user-role';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @Entity('roles')
 export class Role {
@@ -9,11 +9,13 @@ export class Role {
   role_id: string;
 
   @Column({ type: 'varchar' })
+  @IsNotEmpty()
+  @IsString()
   role_name: string;
 
   @Column({ type: 'varchar' })
   description: string;
 
-  @OneToMany(() => UserRole, (userRole) => userRole.role)
-  userRoles: UserRole[];
+  // @OneToMany(() => UserRole, (userRole) => userRole.role)
+  // userRoles: UserRole[];
 }

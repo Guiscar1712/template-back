@@ -4,14 +4,15 @@ import { UserRepository } from '@/domain/repositories/user-repository';
 import { UserService } from '@/domain/services/user/user-service';
 import { Container } from 'inversify';
 import { TYPES } from './types-container';
-import { UserUpdateUseCase } from '@/application/use-cases/user/user-update';
+import { UsersUpdateUseCase } from '@/application/use-cases/user/users-update';
 import { UserDeleteUseCase } from '@/application/use-cases/user/users-delete';
 import { UserListUseCase } from '@/application/use-cases/user/users-list';
 import { UserController } from '@/interfaces/controllers/user-controller';
 import { IHashedPassword } from '@/domain/interfaces/hashed-password.interface';
-import { HashedPassword } from '../utils/hashed-password';
 import { AuthService } from '@/domain/services/auth/auth-service';
 import { AuthLoginUseCase } from '@/application/use-cases/auth/auth-login';
+import { UserListByIdUseCase } from '@/application/use-cases/user/users-list-by-id';
+import { HashedPassword } from '@/shared/utils/hashed-password';
 
 const container = new Container();
 
@@ -23,8 +24,8 @@ container
   .bind<UserCreateUseCase>(TYPES.UserCreateUseCase)
   .to(UserCreateUseCase);
 container
-  .bind<UserUpdateUseCase>(TYPES.UserUpdateUseCase)
-  .to(UserUpdateUseCase);
+  .bind<UsersUpdateUseCase>(TYPES.UsersUpdateUseCase)
+  .to(UsersUpdateUseCase);
 container.bind<UserListUseCase>(TYPES.UserListUseCase).to(UserListUseCase);
 container
   .bind<UserDeleteUseCase>(TYPES.UserDeleteUseCase)
@@ -33,5 +34,8 @@ container
 container.bind<IHashedPassword>(TYPES.HashedPassword).to(HashedPassword);
 container.bind<AuthService>(TYPES.AuthService).to(AuthService);
 container.bind<AuthLoginUseCase>(TYPES.AuthLoginUseCase).to(AuthLoginUseCase);
+container
+  .bind<UserListByIdUseCase>(TYPES.UserListByIdUseCase)
+  .to(UserListByIdUseCase);
 
 export { container };

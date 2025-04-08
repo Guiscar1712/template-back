@@ -14,7 +14,7 @@ import userRouter from './user.route';
 const router = Router();
 
 router.use('/users', userRouter);
-router.use('/roles');
-router.use('/auth');
+// router.use('/roles');
+// router.use('/auth');
 
 export default router;
