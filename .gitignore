@@ -1,0 +1,30 @@
+# Dependências do Node
+/node_modules/
+
+# Diretórios de build do NestJS
+/dist/
+/build/
+
+# Arquivos do TypeScript
+*.tsbuildinfo
+
+# Arquivos de log
+*.log
+
+# Ambiente de desenvolvimento
+/.env
+/.env.local
+
+# IDEs e editor de código
+.vscode/
+.idea/
+
+# Chaves SSH
+.ssh/
+
+# Arquivos do sistema operacional (macOS, Windows, Linux)
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+*.swp

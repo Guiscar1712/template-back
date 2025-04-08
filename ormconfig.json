@@ -1,0 +1,16 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "seu_usuario",
+  "password": "sua_senha",
+  "database": "nome_do_banco",
+  "synchronize": true,
+  "logging": false,
+  "entities": ["src/domain/entities/*.ts"],
+  "migrations": ["src/infrastructure/database/migrations/*.ts"],
+  "cli": {
+    "entitiesDir": "src/domain/entities",
+    "migrationsDir": "src/infrastructure/database/migrations"
+  }
+}
