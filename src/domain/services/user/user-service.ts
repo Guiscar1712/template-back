@@ -3,14 +3,11 @@ import { Address } from '@/domain/entities/address';
 import { Email } from '@/domain/entities/emails';
 import { Phone } from '@/domain/entities/phones';
 import { User } from '@/domain/entities/user';
-import { AbstractRepository } from '@/domain/repositories/abstract.repository';
 import { AddressRepository } from '@/domain/repositories/address-repository';
 import { EmailRepository } from '@/domain/repositories/email-repository';
 import { PhoneRepository } from '@/domain/repositories/phone-repository';
-// import { UserRole } from '@/domain/entities/user-role';
 import { UserRepository } from '@/domain/repositories/user-repository';
 import { AppError } from '@/interfaces/middlewares/errors/app-error';
-// import { UserRoleRepository } from '@/domain/repositories/user-role-repository';
 
 export class UserService {
   private userRepository: UserRepository;
@@ -49,11 +46,14 @@ export class UserService {
       user.name = data.name ?? user.name;
       user.status = data.status ?? user.status;
       user.password = data.password ?? user.password;
+      user.role = data.role ?? user.role;
+      user.document = data.document ?? user.document;
 
       await this.userRepository.update(id, {
         name: user.name,
         status: user.status,
         password: user.password,
+        role: user.role,
       });
 
       if (data.phones) {
@@ -107,6 +107,8 @@ export class UserService {
 
     query.is_deleted = false;
 
+    console.log(query);
+
     return this.userRepository.findById({
       where: query,
       relations: ['phones', 'addresses', 'emails'],
@@ -130,17 +132,4 @@ export class UserService {
   async delete(id: string): Promise<void> {
     return this.userRepository.update(id, { is_deleted: true });
   }
-
-  // async addRolesToUser(userId: string, roleIds: string[]): Promise<void> {
-  //   const userRoles = roleIds.map((roleId) => {
-  //     return {
-  //       user_id: userId,
-  //       role_id: roleId,
-  //     };
-  //   });
-
-  //   for (const role of userRoles) {
-  //     await this.userRoleRepository.save(role as Partial<UserRole>);
-  //   }
-  // }
 }

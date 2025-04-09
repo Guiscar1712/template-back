@@ -1,5 +1,8 @@
+import { RoleEnum } from '@/domain/enums/role.enum';
+
 export interface UserResponseDto {
   id: string;
+  document: string;
   name: string;
   status: string;
   phones: string[];
@@ -11,5 +14,5 @@ export interface UserResponseDto {
     country: string;
     postalCode: string;
   }[];
-  // roles: string[];
+  role: RoleEnum;
 }

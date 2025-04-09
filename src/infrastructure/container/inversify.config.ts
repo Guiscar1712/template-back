@@ -13,6 +13,7 @@ import { AuthService } from '@/domain/services/auth/auth-service';
 import { AuthLoginUseCase } from '@/application/use-cases/auth/auth-login';
 import { UserListByIdUseCase } from '@/application/use-cases/user/users-list-by-id';
 import { HashedPassword } from '@/shared/utils/hashed-password';
+import { AuthController } from '@/interfaces/controllers/auth.controller';
 
 const container = new Container();
 
@@ -34,6 +35,7 @@ container
 container.bind<IHashedPassword>(TYPES.HashedPassword).to(HashedPassword);
 container.bind<AuthService>(TYPES.AuthService).to(AuthService);
 container.bind<AuthLoginUseCase>(TYPES.AuthLoginUseCase).to(AuthLoginUseCase);
+container.bind<AuthController>(TYPES.AuthController).to(AuthController);
 container
   .bind<UserListByIdUseCase>(TYPES.UserListByIdUseCase)
   .to(UserListByIdUseCase);

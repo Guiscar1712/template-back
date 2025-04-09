@@ -6,6 +6,7 @@ export class UserMapper {
     return {
       id: user.user_id,
       name: user.name,
+      document: user.document,
       status: user.status,
       phones: (user.phones || []).map((phone) => phone.phone),
       emails: (user.emails || []).map((email) => email.email),
@@ -16,7 +17,7 @@ export class UserMapper {
         country: addr.country,
         postalCode: addr.postal_code,
       })),
-      // roles: (user.roles || []).map((ur) => ur.role?.role_name ?? ''),
+      role: user.role,
     };
   }
 }

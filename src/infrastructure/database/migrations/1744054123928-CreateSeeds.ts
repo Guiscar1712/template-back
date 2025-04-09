@@ -3,20 +3,8 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class CreateSeeds1744054123928 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      INSERT INTO roles (role_id, role_name, description) VALUES
-        ('6aa1914f-5f7f-4727-a064-fa3a0b4f9dba', 'MASTER', 'Acesso para todas funcionalidades'),
-        ('6856491a-24d4-4e3b-91fc-ba416ca811fc', 'ADMIN', 'Acesso para funcionalidades de admin'),
-        ('7b93b1bb-7bb5-4bd1-922d-f3ec5f4df042', 'USER', 'Acesso para funcionalidades comuns');
-    `);
-
-    await queryRunner.query(`
-      INSERT INTO public.users (user_id, "name", "password", created_at, status) VALUES
-        ('21d4be6b-85ad-4b5a-9c9b-41c8777003e1'::uuid, 'teste', 'teste', '2025-04-07 15:48:49.481', 'active');
-    `);
-
-    await queryRunner.query(`
-      INSERT INTO public.users_roles (user_role_id, user_id, role_id) VALUES
-        (uuid_generate_v4(), '21d4be6b-85ad-4b5a-9c9b-41c8777003e1'::uuid, '6aa1914f-5f7f-4727-a064-fa3a0b4f9dba'::uuid);
+      INSERT INTO public.users (user_id, "name", "password", created_at, status, document) VALUES
+        ('21d4be6b-85ad-4b5a-9c9b-41c8777003e1'::uuid, 'teste', '$2a$10$JtzQ3cF6S1V2ZJ0SIhCfgOM5JgjRhO461lXeyprv4rvYRVcyRpjJO', '2025-04-07 15:48:49.481', 'ACTIVE', '12345678911');
     `);
 
     await queryRunner.query(`
@@ -50,19 +38,7 @@ export class CreateSeeds1744054123928 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      DELETE FROM public.users_roles WHERE user_id = '21d4be6b-85ad-4b5a-9c9b-41c8777003e1';
-    `);
-
-    await queryRunner.query(`
       DELETE FROM public.users WHERE user_id = '21d4be6b-85ad-4b5a-9c9b-41c8777003e1';
-    `);
-
-    await queryRunner.query(`
-      DELETE FROM public.roles WHERE role_id IN (
-        '6aa1914f-5f7f-4727-a064-fa3a0b4f9dba',
-        '6856491a-24d4-4e3b-91fc-ba416ca811fc',
-        '7b93b1bb-7bb5-4bd1-922d-f3ec5f4df042'
-      );
     `);
   }
 }

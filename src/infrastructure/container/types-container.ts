@@ -10,4 +10,5 @@ export const TYPES = {
   HashedPassword: Symbol.for('HashedPassword'),
   AuthService: Symbol.for('AuthService'),
   AuthLoginUseCase: Symbol.for('AuthLoginUseCase'),
+  AuthController: Symbol.for('AuthController'),
 };

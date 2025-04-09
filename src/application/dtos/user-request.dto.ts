@@ -5,11 +5,13 @@ import {
   IsUUID,
   IsEmpty,
   IsOptional,
+  IsEnum,
 } from 'class-validator';
 import { Address } from '@/domain/entities/address';
 import { Email } from '@/domain/entities/emails';
 import { Phone } from '@/domain/entities/phones';
 import { Type } from 'class-transformer';
+import { RoleEnum } from '@/domain/enums/role.enum';
 
 export class UserRequestDto {
   @IsString()
@@ -18,6 +20,9 @@ export class UserRequestDto {
 
   @IsString()
   name: string;
+
+  @IsString()
+  document: string;
 
   @IsString()
   password: string;
@@ -37,7 +42,6 @@ export class UserRequestDto {
   @Type(() => Email)
   emails: Email[];
 
-  // @IsArray()
-  // @IsEmpty()
-  // roles: string[];
+  @IsEnum(RoleEnum)
+  role: RoleEnum;
 }

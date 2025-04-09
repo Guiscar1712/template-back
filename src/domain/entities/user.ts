@@ -9,7 +9,9 @@ import {
   ValidateNested,
   IsArray,
   IsBoolean,
+  IsEnum,
 } from 'class-validator';
+import { RoleEnum } from '../enums/role.enum';
 
 @Entity('users')
 export class User {
@@ -21,6 +23,10 @@ export class User {
   @Column({ type: 'varchar' })
   @IsString()
   name: string;
+
+  @Column({ type: 'varchar', length: 11 })
+  @IsString()
+  document: string;
 
   @Column({ type: 'varchar' })
   @IsString()
@@ -56,8 +62,11 @@ export class User {
   @Column({ type: 'boolean', default: false })
   is_deleted: boolean;
 
-  // @OneToMany(() => UserRole, (userRole) => userRole.user, { cascade: true })
-  // @IsArray()
-  // @ValidateNested({ each: true })
-  // roles: UserRole[];
+  @Column({
+    type: 'enum',
+    enum: RoleEnum,
+    default: RoleEnum.USER,
+  })
+  @IsEnum(RoleEnum, { each: true })
+  role: RoleEnum;
 }

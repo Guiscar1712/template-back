@@ -10,6 +10,10 @@ import { fieldsValidationErrors } from '@/shared/utils/fields-validation-errors'
 import { UserUpdateRequestDto } from '@/application/dtos/user-update-request.dto';
 import { UserMapper } from '@/application/mappers/user.mapper';
 import { UserResponseDto } from '@/application/dtos/user-response.dto';
+import {
+  cleanDocument,
+  validateDocument,
+} from '@/shared/utils/validate-document';
 
 @injectable()
 export class UsersUpdateUseCase {
@@ -21,6 +25,7 @@ export class UsersUpdateUseCase {
   async execute(data: Partial<User>): Promise<UserResponseDto> {
     try {
       const existingUser = await this.userService.findById(data.user_id);
+
       if (!existingUser) {
         throw new AppError('User not found', 404);
       }
@@ -41,8 +46,20 @@ export class UsersUpdateUseCase {
         throw new ValidateError(fieldErrors);
       }
 
+      let cleanedDocument = existingUser.document;
+
+      if (data.document) {
+        const cleanedDocument = cleanDocument(data.document);
+
+        if (!validateDocument(cleanedDocument)) {
+          throw new AppError('Documento inválido', 400);
+        }
+      }
+
       const userUpdated = await this.userService.update(data.user_id, {
         name: data.name,
+        document: cleanedDocument,
+        role: data.role,
         addresses: data.addresses,
         phones: data.phones,
         emails: data.emails,

@@ -31,9 +31,10 @@ export class UserController {
       const data = await this.createUseCase.execute(req.body);
       res.success({ data: data, statusCode: 201 });
     } catch (error) {
+      console.log(error);
       res.error({
         message: 'Erro ao cadastrar usuário',
-        customError: error,
+        customError: error.message,
         statusCode: 400,
       });
     }
@@ -44,9 +45,10 @@ export class UserController {
       const data = await this.updateUseCase.execute(req.body);
       res.success({ data: data, statusCode: 200 });
     } catch (error) {
+      console.log(error);
       res.error({
         message: 'Erro ao atualizar usuário',
-        customError: error,
+        customError: error.message,
         statusCode: 400,
       });
     }
@@ -59,7 +61,7 @@ export class UserController {
     } catch (error) {
       res.error({
         message: 'Erro ao buscar usuários',
-        customError: error,
+        customError: error.message,
         statusCode: 400,
       });
     }
@@ -74,8 +76,8 @@ export class UserController {
       res.success({ data: data, statusCode: 200 });
     } catch (error) {
       res.error({
-        message: 'Erro ao atualizar usuário',
-        customError: error,
+        message: 'Erro ao buscar usuário',
+        customError: error.message,
         statusCode: 400,
       });
     }
@@ -88,8 +90,8 @@ export class UserController {
       res.success({ data: null, statusCode: 204 });
     } catch (error) {
       res.error({
-        message: 'Erro ao atualizar usuário',
-        customError: error,
+        message: 'Erro ao deletar usuário',
+        customError: error.message,
         statusCode: 400,
       });
     }

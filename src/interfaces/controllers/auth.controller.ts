@@ -12,8 +12,8 @@ export class AuthController {
 
   async login(req: Request, res: Response): Promise<void> {
     try {
-      const { email, password } = req.body;
-      const token = await this.authLoginUseCase.execute(email, password);
+      const { document, password } = req.body;
+      const token = await this.authLoginUseCase.execute(document, password);
 
       res.success({
         data: token,
@@ -22,7 +22,7 @@ export class AuthController {
     } catch (error) {
       res.error({
         message: 'Erro ao autenticar usuário',
-        customError: error,
+        customError: error.message,
         statusCode: 401,
       });
     }

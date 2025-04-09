@@ -11,6 +11,10 @@ import { UserMapper } from '@/application/mappers/user.mapper';
 import { UserResponseDto } from '@/application/dtos/user-response.dto';
 import { UserRequestDto } from '@/application/dtos/user-request.dto';
 import { fieldsValidationErrors } from '@/shared/utils/fields-validation-errors';
+import {
+  cleanDocument,
+  validateDocument,
+} from '@/shared/utils/validate-document';
 
 @injectable()
 export class UserCreateUseCase {
@@ -22,9 +26,7 @@ export class UserCreateUseCase {
     private passwordHasher: IHashedPassword,
   ) {}
 
-  async execute(
-    data: Partial<User> & { roles: string[] },
-  ): Promise<UserResponseDto> {
+  async execute(data: Partial<User>): Promise<UserResponseDto> {
     try {
       const userInstance = plainToInstance(UserRequestDto, data);
 
@@ -39,6 +41,14 @@ export class UserCreateUseCase {
         const fieldErrors = fieldsValidationErrors(validationErrors);
         throw new ValidateError(fieldErrors);
       }
+
+      const cleanedDocument = cleanDocument(data.document);
+
+      if (!validateDocument(cleanedDocument)) {
+        throw new AppError('Documento inválido', 400);
+      }
+
+      data.document = cleanedDocument;
 
       if (!data.password) {
         throw new ValidateError([
@@ -55,10 +65,6 @@ export class UserCreateUseCase {
         ...data,
         password: hashedPassword,
       });
-
-      // if (roles?.length) {
-      //   await this.userService.addRolesToUser(user.user_id, roles);
-      // }
 
       return UserMapper.toResponseDto(user);
     } catch (error) {
