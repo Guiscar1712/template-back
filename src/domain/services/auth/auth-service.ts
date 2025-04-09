@@ -4,8 +4,8 @@ import { User } from '@/domain/entities/user';
 
 @injectable()
 export class AuthService {
-  private readonly secret = process.env.JWT_SECRET || 'default_secret';
-  private readonly expiresIn = '1d';
+  private readonly secret = process.env.SECRET_KEY;
+  private readonly expiresIn = '1h';
 
   public async generateToken(
     user: User,

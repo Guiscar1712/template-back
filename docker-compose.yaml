@@ -29,6 +29,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres1234
       DB_NAME: app-db
+      SECRET_KEY: 'c560ed79-2f6b-447a-ba52-e0143c237fbf'
     ports:
       - '3000:3000'
     depends_on:

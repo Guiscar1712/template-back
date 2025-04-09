@@ -4,7 +4,7 @@ export class CreateSeeds1744054123928 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       INSERT INTO public.users (user_id, "name", "password", created_at, status, document) VALUES
-        ('21d4be6b-85ad-4b5a-9c9b-41c8777003e1'::uuid, 'teste', '$2a$10$JtzQ3cF6S1V2ZJ0SIhCfgOM5JgjRhO461lXeyprv4rvYRVcyRpjJO', '2025-04-07 15:48:49.481', 'ACTIVE', '12345678911');
+        ('21d4be6b-85ad-4b5a-9c9b-41c8777003e1'::uuid, 'teste', '$2a$10$JtzQ3cF6S1V2ZJ0SIhCfgOM5JgjRhO461lXeyprv4rvYRVcyRpjJO', '2025-04-07 15:48:49.481', 'ACTIVE', '38826621071');
     `);
 
     await queryRunner.query(`
